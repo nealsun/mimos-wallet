@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL
+    driver-class-name: org.h2.Driver
+    username:
+    password:
+    schema:
+    - classpath:db/migration/V1__create_chain_balance.sql
+    - classpath:db/migration/V2__create_chain_block_forked_recored.sql
+    - classpath:db/migration/V3__create_chain_summary.sql
+    - classpath:db/migration/V4__create_chain_token.sql
+    - classpath:db/migration/V5__create_chain_transaction.sql
+    - classpath:db/migration/V6__create_chain_transaction_action.sql
+    - classpath:db/migration/V7__create_chain_transaction_raw.sql
+    - classpath:db/migration/V8__create_chain_walelt_path.sql
+    - classpath:db/migration/V9__create_chain_walelt_root.sql
+

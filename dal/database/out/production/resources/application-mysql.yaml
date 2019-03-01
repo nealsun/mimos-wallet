@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/bitmart_chain?useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # do not specify type, which will result in a multi-datasource warning
+    # type: com.zaxxer.hikari.HikariDataSource
+    username: bitmart_exchange
+    password: BmRTd871k#_18!sew92

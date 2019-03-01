@@ -1,0 +1,17 @@
+package com.mimos.wallet.api.rest;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public interface HelloController {
+
+    @GetMapping("/hello")
+    ResponseEntity<String> sayHello();
+
+    @GetMapping("/hi/{name}")
+    ResponseEntity<String> sayHi(@PathVariable String name);
+
+}

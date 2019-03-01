@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    # do not add DATABASE_TO_UPPER=false;
+    # because you always define lower case table or column in mysql
+    # but h2 only store uppercase table or column, so you need DATABASE_TO_UPPER=true(default)
+    url: jdbc:h2:file:/Users/dingyp/ideaProjects_mimos/mimos-wallet/.h2/test;
+    driver-class-name: org.h2.Driver
+    username: root
+    password: 123456
+    schema:
+    - classpath:db/migration/V1__create_chain_balance.sql
+    - classpath:db/migration/V2__create_chain_block_forked_recored.sql
+    - classpath:db/migration/V3__create_chain_summary.sql
+    - classpath:db/migration/V4__create_chain_token.sql
+    - classpath:db/migration/V5__create_chain_transaction.sql
+    - classpath:db/migration/V6__create_chain_transaction_action.sql
+    - classpath:db/migration/V7__create_chain_transaction_raw.sql
+    - classpath:db/migration/V8__create_chain_walelt_path.sql
+    - classpath:db/migration/V9__create_chain_walelt_root.sql
+
