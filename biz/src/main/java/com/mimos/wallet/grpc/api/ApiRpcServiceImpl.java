@@ -121,9 +121,9 @@ public class ApiRpcServiceImpl extends ApiServiceGrpc.ApiServiceImplBase {
     public void queryHistory(AddressHistoryRequest request, StreamObserver<CommonResponse> responseObserver) {
 
         try {
-            List<String> collect = request.getAddressesList().stream().map(Address::getAddress).collect(Collectors.toList());
+            List<Address> addresses = request.getAddressesList();
 
-            List<Transaction> transactions = transactionActionService.getListByAddress(collect, request.getPageIndex(), request.getPageSize());
+            List<Transaction> transactions = transactionActionService.getListByAddress(addresses, request.getPageIndex(), request.getPageSize());
 
             TransactionList transactionList = TransactionList.newBuilder().addAllTransactions(transactions).build();
             /** 返回结果 */
@@ -173,6 +173,9 @@ public class ApiRpcServiceImpl extends ApiServiceGrpc.ApiServiceImplBase {
 
     @Override
     public void queryUtxo(UtxoRequest request, StreamObserver<CommonResponse> responseObserver) {
-
+        UTXO build = UTXO.newBuilder().setAmount("129939393").build();
+        /** 返回结果 */
+        responseObserver.onNext(ResponseBuilder.sucApiResponse(build));
+        responseObserver.onCompleted();
     }
 }

@@ -1,6 +1,7 @@
 package com.mimos.wallet.service;
 
 
+import com.mimos.grpc.api.Address;
 import com.mimos.grpc.api.Transaction;
 import com.mimos.wallet.dal.common.generated.tables.pojos.ChainTransactionAction;
 
@@ -13,5 +14,5 @@ import java.util.List;
  */
 public interface TransactionActionService extends  BaseReportService<ChainTransactionAction> {
 
-    List<Transaction> getListByAddress(List<String> addresses, int pageIndex, int pageSize);
+    List<Transaction> getListByAddress(List<Address> addresses, int pageIndex, int pageSize);
 }

@@ -1,5 +1,6 @@
 package com.mimos.wallet.service.impl;
 
+import com.mimos.grpc.api.Address;
 import com.mimos.grpc.api.Transaction;
 import com.mimos.wallet.dal.common.generated.Tables;
 import com.mimos.wallet.dal.common.generated.tables.daos.ChainTransactionActionDao;
@@ -55,8 +56,11 @@ public class TransactionActionServiceImpl  implements TransactionActionService {
     }
 
     @Override
-    public List<Transaction> getListByAddress(List<String> addresses,int pageIndex,int pageSize){
+    public List<Transaction> getListByAddress(List<Address> addresses,int pageIndex,int pageSize){
 
+        if (addresses==null || addresses.size()==0 || pageSize ==0){
+            return null;
+        }
 
         SelectOnConditionStep<Record7<String, Long, Boolean, BigInteger, String, String, Long>> stepA = context.select(
                         Tables.CHAIN_TRANSACTION_ACTION.BLOCK_HASH,
@@ -72,24 +76,32 @@ public class TransactionActionServiceImpl  implements TransactionActionService {
                 .on(Tables.CHAIN_TRANSACTION.TX_HASH.eq(Tables.CHAIN_TRANSACTION_ACTION.TX_HASH));
 
         SelectConditionStep<Record7<String, Long, Boolean, BigInteger, String, String, Long>> stepB;
+
+        Address address = addresses.get(0);
         if (addresses.size()==1){
             stepB = stepA
-                    .where(Tables.CHAIN_TRANSACTION_ACTION.ADDRESS.eq(addresses.get(0)));
+                    .where(Tables.CHAIN_TRANSACTION_ACTION.ADDRESS.eq(address.getAddress()))
+                    .and(Tables.CHAIN_TRANSACTION_ACTION.IS_TOKEN.eq(address.getIsToken()));
+                    if (address.getIsToken()){
+                        stepB.and(Tables.CHAIN_TRANSACTION_ACTION.CONTRACT_ID.eq(address.getContractId()));
+                    }
         }else {
             stepB = stepA
                     .where(Tables.CHAIN_TRANSACTION_ACTION.ADDRESS.in(addresses));
         }
-       return stepB.and(Tables.CHAIN_TRANSACTION_ACTION.OBSOLETED.eq(false))
+       return stepB .and(Tables.CHAIN_TRANSACTION_ACTION.CHAIN_ID.eq(Long.parseLong(address.getSymbol())))
+                    .and(Tables.CHAIN_TRANSACTION_ACTION.OBSOLETED.eq(false))
                     .orderBy(Tables.CHAIN_TRANSACTION_ACTION.BLOCK_NUMBER.desc(), Tables.CHAIN_TRANSACTION_ACTION.CREATE_TIME.desc())
                     .limit(pageIndex * pageSize, pageSize)
                     .fetch()
                     .stream()
                     .map(record ->
                             Transaction.newBuilder()
+                                    .setSymbol(address.getSymbol())
                                     .setBlockHash(record.get(0).toString())
                                     .setHeight((Long) record.get(1))
                                     .setIsIncome((Boolean) record.get(2))
-                                    .setAmount((String) record.get(3))
+                                    .setAmount( record.get(3).toString())
                                     .setTxid((String) record.get(5))
                                     .setTime((Long) record.get(6)).build()
                     )
