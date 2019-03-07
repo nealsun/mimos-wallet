@@ -71,7 +71,7 @@ public class PojoConverter {
     }
 
     public static Balance balance2Mes(ChainBalcanceRecord chainBalcanceRecord) {
-        Balance.newBuilder()
+        return Balance.newBuilder()
                 .setBalance(chainBalcanceRecord.getBalanceAfter().toString())
                 .setBlockHash(chainBalcanceRecord.getBlockHash())
                 .setHeight(chainBalcanceRecord.getBlockNumber())
@@ -83,7 +83,6 @@ public class PojoConverter {
                         .setSymbol(chainBalcanceRecord.getChainId().toString())
                         .build()
                 ).build();
-        return null;
     }
 
     public static Chain summary2Msg(ChainSummary chainSummary) {
