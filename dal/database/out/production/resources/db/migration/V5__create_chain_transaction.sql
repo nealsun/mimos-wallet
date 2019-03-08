@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS `chain_transaction` (
   `block_number` bigint(20) NOT NULL COMMENT '区块高度',
   `chain_id` bigint(20) NOT NULL COMMENT '链ID',
   `tx_hash` varchar(255) NOT NULL COMMENT '交易hash',
+  `fee` varchar(255) NOT NULL COMMENT '交易手续',
   `tx_time` bigint(20) DEFAULT NULL COMMENT '交易发生时间',
   `obsoleted` bit(1) NOT NULL DEFAULT 0 COMMENT '是否废弃',
 

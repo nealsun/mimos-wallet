@@ -18,15 +18,14 @@ import java.math.BigInteger;
  * @auther: dingyp
  * @date: 2019/3/8 2:44 PM
  */
-public abstract class NodeServiceAdapter  implements NodeService {
+public abstract class NodeServiceAdapter {
 
     abstract  NodeClian getNodeCliant();
 
     @Resource
     ChainTransactionLocalDao chainTransactionLocalDao;
 
-    @Override
-    public TransactionResponseData buildTransafctionReq(int chainId, String reqJson) {
+    public TransactionResponseData buildRequest(int chainId, String reqJson) {
 
         TransactionRawData rawData = getNodeCliant().getStub().buildTransactionRaw(TransactionReqData.newBuilder().setChainId(chainId).setRequsetJson(reqJson).build());
 
@@ -37,6 +36,7 @@ public abstract class NodeServiceAdapter  implements NodeService {
         transactionLocal.setTo(requsetAction.getToAddress());
         transactionLocal.setAmount(new BigInteger(requsetAction.getAmount()));
         transactionLocal.setChainId(chainId);
+        transactionLocal.setFee(Long.valueOf(requsetAction.getFee()));
         String txHash = requsetAction.getTxHash();
         if (txHash != null) {
             transactionLocal.setTxHash(txHash);
@@ -49,7 +49,7 @@ public abstract class NodeServiceAdapter  implements NodeService {
         transactionLocal.setCreateTime(now.getTimeMillis());
         transactionLocal.setCreateZone(now.getZone());
 
-        chainTransactionLocalDao.insert();
+        chainTransactionLocalDao.insert(transactionLocal);
 
         TransactionResponseData responseData = TransactionResponseData.newBuilder().setData(rawData.getData())
                 .setChainId(chainId)

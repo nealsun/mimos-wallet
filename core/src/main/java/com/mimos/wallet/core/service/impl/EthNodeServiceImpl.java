@@ -1,5 +1,6 @@
 package com.mimos.wallet.core.service.impl;
 
+import com.mimos.grpc.api.TransactionResponseData;
 import com.mimos.wallet.core.grpc.EthRpcCliant;
 import com.mimos.wallet.core.grpc.NodeClian;
 import com.mimos.wallet.core.service.EthNodeService;
@@ -23,5 +24,10 @@ public class EthNodeServiceImpl extends NodeServiceAdapter implements EthNodeSer
     @Override
     NodeClian getNodeCliant() {
         return ethRpcCliant;
+    }
+
+    @Override
+    public TransactionResponseData buildTransafctionReq(int chainId, String reqJson) {
+        return super.buildRequest(chainId, reqJson);
     }
 }
