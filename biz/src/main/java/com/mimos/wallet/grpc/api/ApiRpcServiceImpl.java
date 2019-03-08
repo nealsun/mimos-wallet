@@ -6,6 +6,7 @@ import com.mimos.wallet.dal.common.generated.tables.pojos.ChainAddress;
 import com.mimos.wallet.dal.common.generated.tables.pojos.ChainSummary;
 import com.mimos.wallet.dal.common.generated.tables.pojos.ChainWalletPath;
 import com.mimos.wallet.dal.common.generated.tables.pojos.ChainWalletRoot;
+import com.mimos.wallet.dal.common.generated.tables.records.ChainBalcanceRecord;
 import com.mimos.wallet.service.*;
 import com.mimos.wallet.util.PojoConverter;
 import com.mimos.wallet.util.ResponseBuilder;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.devh.springboot.autoconfigure.grpc.server.GrpcService;
 
 import javax.annotation.Resource;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -138,9 +140,23 @@ public class ApiRpcServiceImpl extends ApiServiceGrpc.ApiServiceImplBase {
     @Override
     public void queryBalance(BalanceRequest request, StreamObserver<CommonResponse> responseObserver) {
         try {
-            List<Balance> collect = request.getAddressesList().stream().map(address ->
-                    balanceService.queryBalanceByAddressAnddChainId(address.getAddress(), Integer.parseInt(address.getSymbol()), address.getIsToken(), address.getContractId())
-            ).map(PojoConverter::balance2Mes).collect(Collectors.toList());
+            List<Balance> collect = request.getAddressesList().stream()
+                    .map(address -> {
+                        ChainBalcanceRecord record = balanceService.queryBalanceByAddressAnddChainId(address.getAddress(), Integer.parseInt(address.getSymbol()), address.getIsToken(), address.getContractId());
+                        if (record == null) {
+                            record = new ChainBalcanceRecord();
+                            record.setAddress(address.getAddress());
+                            record.setChainId(Long.parseLong(address.getSymbol()));
+                            record.setIsToken(address.getIsToken());
+                            record.setContractId(address.getContractId());
+                            record.setBalanceAfter(BigInteger.ZERO);
+                            record.setBalanceBefor(BigInteger.ZERO);
+                            record.setBlockHash("");
+                            record.setBlockNumber(0L);
+                            record.setTxHash("");
+                        }
+                        return record;
+                    }).map(PojoConverter::balance2Mes).collect(Collectors.toList());
 
             BalanceList balanceResp = BalanceList.newBuilder().addAllBalances(collect).build();
             /** 返回结果 */
