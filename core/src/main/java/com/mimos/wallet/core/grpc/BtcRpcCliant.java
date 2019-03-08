@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
  * @date: 2019/3/7 5:36 PM
  */
 @Component
-public class EthRpcCliant extends NodeClian {
+public class BtcRpcCliant extends NodeClian {
 
-    @GrpcClient("node-eth")
-    private io.grpc.Channel serverChannel;
+    @GrpcClient("node-btc")
+    private Channel serverChannel;
 
     @Override
     public Channel getChannel() {

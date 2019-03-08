@@ -89,23 +89,29 @@ public class TransactionActionServiceImpl  implements TransactionActionService {
             stepB = stepA
                     .where(Tables.CHAIN_TRANSACTION_ACTION.ADDRESS.in(addresses));
         }
-       return stepB .and(Tables.CHAIN_TRANSACTION_ACTION.CHAIN_ID.eq(Long.parseLong(address.getSymbol())))
-                    .and(Tables.CHAIN_TRANSACTION_ACTION.OBSOLETED.eq(false))
-                    .orderBy(Tables.CHAIN_TRANSACTION_ACTION.BLOCK_NUMBER.desc(), Tables.CHAIN_TRANSACTION_ACTION.CREATE_TIME.desc())
-                    .limit(pageIndex * pageSize, pageSize)
-                    .fetch()
-                    .stream()
-                    .map(record ->
-                            Transaction.newBuilder()
-                                    .setSymbol(address.getSymbol())
-                                    .setBlockHash(record.get(0).toString())
-                                    .setHeight((Long) record.get(1))
-                                    .setIsIncome((Boolean) record.get(2))
-                                    .setAmount( record.get(3).toString())
-                                    .setFee("0")
-                                    .setTxid((String) record.get(5))
-                                    .setTime((Long) record.get(6)).build()
-                    )
-                    .collect(Collectors.toList());
+        List<Transaction> collect = stepB.and(Tables.CHAIN_TRANSACTION_ACTION.CHAIN_ID.eq(Long.parseLong(address.getSymbol())))
+                .and(Tables.CHAIN_TRANSACTION_ACTION.OBSOLETED.eq(false))
+                .orderBy(Tables.CHAIN_TRANSACTION_ACTION.BLOCK_NUMBER.desc(), Tables.CHAIN_TRANSACTION_ACTION.CREATE_TIME.desc())
+                .limit(pageIndex * pageSize, pageSize)
+                .fetch()
+                .stream()
+                .map(record ->
+                        Transaction.newBuilder()
+                                .setSymbol(address.getSymbol())
+                                .setBlockHash(record.get(0).toString())
+                                .setHeight((Long) record.get(1))
+                                .setIsIncome((Boolean) record.get(2))
+                                .setAmount(record.get(3).toString())
+                                .setFee("0")
+                                .setTxid((String) record.get(5))
+                                .setTime((Long) record.get(6)).build()
+                )
+                .collect(Collectors.toList());
+
+        //todo
+        // collect
+
+
+        return  collect;
     }
 }

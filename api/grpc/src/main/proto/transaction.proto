@@ -26,8 +26,9 @@ message TransactionRawData {
 message RequestAction { // 记录
     int32 chainId = 1;
     string fromAddrss = 2;
-    string t0Address = 3;
+    string toAddress = 3;
     string amount = 4;// bitInteger
     string fee = 5;//bigDesimail
     int64 timestimole = 6;
+    string txHash = 7;//check null before used
 }

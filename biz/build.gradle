@@ -77,7 +77,4 @@ dependencies {
 //    testImplementation('org.spockframework:spock-spring:1.2-groovy-2.4')
 //    testImplementation('com.h2database:h2:1.4.197')
 
-
-    compile('com.mimos.wallet:mimos-chain-base:0.0.1-SNAPSHOT')
-    compile('com.mimos:api-grpc:1.0.0-SNAPSHOT')
 }

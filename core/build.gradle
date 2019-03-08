@@ -27,7 +27,6 @@ dependencies {
 
 
     //    implementation("mysql:mysql-connector-java:${mysqlConnectorVersion}")
-    implementation("net.devh:grpc-server-spring-boot-starter:${grpcStarterVersion}")
-    testImplementation("net.devh:grpc-client-spring-boot-starter:${grpcStarterVersion}")
+    implementation("net.devh:grpc-client-spring-boot-starter:${grpcStarterVersion}")
     implementation("io.netty:netty-tcnative-boringssl-static:${grpcTcnativeVersion}")
 }

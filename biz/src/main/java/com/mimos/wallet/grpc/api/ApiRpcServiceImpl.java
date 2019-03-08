@@ -1,6 +1,7 @@
 package com.mimos.wallet.grpc.api;
 
 import com.mimos.grpc.api.*;
+import com.mimos.wallet.core.service.NodeService;
 import com.mimos.wallet.dal.common.generated.tables.daos.ChainAddressDao;
 import com.mimos.wallet.dal.common.generated.tables.pojos.ChainAddress;
 import com.mimos.wallet.dal.common.generated.tables.pojos.ChainSummary;
@@ -45,6 +46,9 @@ public class ApiRpcServiceImpl extends ApiServiceGrpc.ApiServiceImplBase {
 
     @Resource
     ChainSummaryService chainSummaryService;
+
+    @Resource
+    NodeService nodeService;
 
 
     @Override
@@ -198,6 +202,14 @@ public class ApiRpcServiceImpl extends ApiServiceGrpc.ApiServiceImplBase {
     @Override
     public void getTransactionReqData(TransactionReqData request, StreamObserver<CommonResponse> responseObserver) {
 
-        super.getTransactionReqData(request, responseObserver);
+
+        TransactionResponseData rpcData = nodeService.buildTransafctionReq(request.getChainId(), request.getRequsetJson());
+
+        TransactionResponseData build = TransactionResponseData.newBuilder().setData(rpcData.getData()).setReqId(rpcData.getReqId()).build();
+        /** 返回结果 */
+        responseObserver.onNext(ResponseBuilder.sucApiResponse(build));
+        responseObserver.onCompleted();
     }
+
+
 }

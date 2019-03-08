@@ -1,0 +1,8 @@
+grpc:
+  client:
+    node-btc:
+      host: 127.0.0.1
+      port: 12788
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext

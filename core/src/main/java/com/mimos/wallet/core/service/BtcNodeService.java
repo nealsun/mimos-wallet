@@ -5,7 +5,6 @@ package com.mimos.wallet.core.service;
  * @auther: dingyp
  * @date: 2019/3/7 5:01 PM
  */
-public interface EthNodeService extends  NodeService{
-
+public interface BtcNodeService extends  NodeService{
 
 }

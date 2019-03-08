@@ -15,4 +15,7 @@ dependencies {
     
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-aop:${springBootVersion}")
+
+    compile('com.mimos.wallet:mimos-chain-base:0.0.1-SNAPSHOT')
+    compile('com.mimos:api-grpc:1.0.0-SNAPSHOT')
 }
