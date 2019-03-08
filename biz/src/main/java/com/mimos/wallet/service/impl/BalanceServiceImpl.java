@@ -3,7 +3,6 @@ package com.mimos.wallet.service.impl;
 
 import com.mimos.wallet.dal.common.generated.Tables;
 import com.mimos.wallet.dal.common.generated.tables.daos.ChainBalcanceDao;
-import com.mimos.wallet.dal.common.generated.tables.daos.ChainSummaryDao;
 import com.mimos.wallet.dal.common.generated.tables.pojos.ChainBalcance;
 import com.mimos.wallet.dal.common.generated.tables.pojos.ChainTransactionAction;
 import com.mimos.wallet.dal.common.generated.tables.records.ChainBalcanceRecord;

@@ -5,7 +5,8 @@ spring:
     username:
     password:
     schema:
-    - classpath:db/migration/V1__create_chain_balance.sql
+    - classpath:db/migration/V10__create_chain_address.sql
+    - classpath:db/migration/V1__create_chain_balance.sql
     - classpath:db/migration/V2__create_chain_block_forked_recored.sql
     - classpath:db/migration/V3__create_chain_summary.sql
     - classpath:db/migration/V4__create_chain_token.sql

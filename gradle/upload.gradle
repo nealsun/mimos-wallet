@@ -1,12 +1,18 @@
+jar {
+    enabled = true
+    baseName = "${rootProject.name}-${archivesBaseName}"
+}
+
 uploadArchives {
+
     repositories {
+
+        def localMavenRepo = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+
         mavenDeployer {
-            repository(url: 'http://example/repository/maven-releases/') {
-                authentication(userName: "${mavenPushUsername}", password: "${mavenPushPassword}")
-            }
-            snapshotRepository(url: 'http://example/repository/maven-snapshots/') {
-                authentication(userName: "${mavenPushUsername}", password: "${mavenPushPassword}")
-            }
+
+            repository(url: localMavenRepo)
+
             pom {
                 groupId = "${group}"
                 artifactId = "${rootProject.name}.${archivesBaseName}"

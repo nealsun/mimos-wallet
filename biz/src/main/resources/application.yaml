@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: mysql, jooq, grpc-server
+    active: mysql, jooq, grpc-server, grpc-eth-client
 
 
   redis:

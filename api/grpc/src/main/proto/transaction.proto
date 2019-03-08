@@ -1,0 +1,33 @@
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+option java_package = "com.mimos.wallet.grpc";
+
+service TransactionGreeter {
+
+  rpc buildTransactionRaw (TransactionReqData) returns (TransactionRawData) {}
+
+}
+
+message TransactionReqData {
+    int32 chainId = 1;
+    string requsetJson = 2;
+}
+
+message TransactionRawData {
+    int32 chainId = 1;
+    bool isSuc = 2;
+    string data = 3; // 等签名数据
+    RequestAction requsetAction = 4;
+
+}
+message RequestAction { // 记录
+    int32 chainId = 1;
+    string fromAddrss = 2;
+    string t0Address = 3;
+    string amount = 4;// bitInteger
+    string fee = 5;//bigDesimail
+    int64 timestimole = 6;
+}

@@ -3,4 +3,4 @@ server:
 
 spring:
   profiles:
-    active: mock, h2-mem, jooq
+    active: mock, h2-mem, jooq, grpc-eth-client

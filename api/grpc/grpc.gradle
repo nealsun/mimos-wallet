@@ -22,3 +22,28 @@ sourceSets {
         }
     }
 }
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'com.google.protobuf'
+
+description = 'Wallet API RPC Common Library'
+group = 'com.mimos'
+version = '1.0.0-SNAPSHOT'
+
+jar {
+    enabled = true
+}
+repositories {
+    maven {
+        credentials {
+            username "$mavenPullUser"
+            password "$mavenPullPassword"
+        }
+        url "https://nexus.infra.bitmart.com/repository/maven-public/"
+    }
+
+    jcenter()
+    mavenLocal()
+}

@@ -1,4 +1,4 @@
-rootProject.name = 'mimos-wallet'
+rootProject.name = 'wallet'
 include 'api'
 include 'api:grpc'
 include 'api:rest'

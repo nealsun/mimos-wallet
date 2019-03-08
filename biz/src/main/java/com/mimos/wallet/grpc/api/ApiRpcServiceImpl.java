@@ -178,4 +178,10 @@ public class ApiRpcServiceImpl extends ApiServiceGrpc.ApiServiceImplBase {
         responseObserver.onNext(ResponseBuilder.sucApiResponse(build));
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void getTransactionReqData(TransactionReqData request, StreamObserver<CommonResponse> responseObserver) {
+
+        super.getTransactionReqData(request, responseObserver);
+    }
 }

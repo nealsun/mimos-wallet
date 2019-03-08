@@ -7,6 +7,7 @@ apply from: "grpc.gradle"
 apply from: "${rootDir}/gradle/api.gradle"
 apply from: "${rootDir}/gradle/upload.gradle"
 
+
 dependencies {
     compileOnly("net.devh:grpc-server-spring-boot-starter:${grpcStarterVersion}")
     compileOnly("io.netty:netty-tcnative-boringssl-static:${grpcTcnativeVersion}")

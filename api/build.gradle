@@ -1,4 +1,4 @@
-archivesBaseName = 'api'
+archivesBaseName = 'wallet-api'
 
 dependencies {
     compile project(":api:grpc")
