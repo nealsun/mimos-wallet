@@ -108,6 +108,7 @@ public class TransactionsServiceRpcImpl extends TransctionsGreeterGrpc.Transctio
         DateTimeWithZone now = DateTimeWithZone.now();
         transactionsDTO.setCreateTime(now.getTimeMillis());
         transactionsDTO.setCreateZone(now.getZone());
+        transactionsDTO.setFee(request.getFee());
 
         return transactionsDTO;
     }
