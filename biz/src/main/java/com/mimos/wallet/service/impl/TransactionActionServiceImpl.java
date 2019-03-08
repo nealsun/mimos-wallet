@@ -102,6 +102,7 @@ public class TransactionActionServiceImpl  implements TransactionActionService {
                                     .setHeight((Long) record.get(1))
                                     .setIsIncome((Boolean) record.get(2))
                                     .setAmount( record.get(3).toString())
+                                    .setFee("0")
                                     .setTxid((String) record.get(5))
                                     .setTime((Long) record.get(6)).build()
                     )
