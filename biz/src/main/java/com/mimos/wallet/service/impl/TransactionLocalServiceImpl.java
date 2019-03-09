@@ -27,11 +27,14 @@ public class TransactionLocalServiceImpl implements TransactionLocalService {
             Record1<Integer> nonceRecord = context.select(Tables.CHAIN_TRANSACTION_LOCAL.NONCE).from(Tables.CHAIN_TRANSACTION_LOCAL)
                     .where(Tables.CHAIN_TRANSACTION_LOCAL.STATUS.eq(1))
                     .and(Tables.CHAIN_TRANSACTION_LOCAL.FROM.eq(ethRaw.getFrom()))
-                    .orderBy(Tables.CHAIN_TRANSACTION_LOCAL.CREATE_TIME.desc())
+                    .orderBy(Tables.CHAIN_TRANSACTION_LOCAL.NONCE.desc())
                     .limit(1)
                     .fetchOne();
             if (nonceRecord!=null){
-                ethRaw.setNonce(new BigInteger(nonceRecord.get(0)+""));
+                /**
+                 * 存在 noce + 1
+                 */
+                ethRaw.setNonce(new BigInteger(nonceRecord.get(0)+"").add(BigInteger.ONE));
             }else {
                 ethRaw.setNonce(BigInteger.ZERO);
             }

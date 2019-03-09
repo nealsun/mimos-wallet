@@ -2,6 +2,7 @@ package com.mimos.wallet.grpc.api;
 
 import com.alibaba.fastjson.JSON;
 import com.mimos.grpc.api.*;
+import com.mimos.wallet.base.enums.ChainSybmol;
 import com.mimos.wallet.core.dto.RawEthTransactionDto;
 import com.mimos.wallet.core.service.NodeService;
 import com.mimos.wallet.dal.common.generated.tables.daos.ChainAddressDao;
@@ -208,13 +209,23 @@ public class ApiRpcServiceImpl extends ApiServiceGrpc.ApiServiceImplBase {
     @Override
     public void getTransactionReqData(TransactionReqData request, StreamObserver<CommonResponse> responseObserver) {
 
-        RawEthTransactionDto rawDto = JSON.parseObject(request.getRequsetJson(), RawEthTransactionDto.class);
-        /***
-         * 初始化 Nonce
+        String requestJson;
+        /**
+         * ETH inflateNoce
          */
-        transactionLocalService.inflateNoce(rawDto);
+        if (request.getChainId() == ChainSybmol.ETH.getValue()) {
 
-        TransactionResponseData rpcData = nodeService.buildTransafctionReq(request.getChainId(), JSON.toJSONString(rawDto));
+            RawEthTransactionDto rawDto = JSON.parseObject(request.getRequsetJson(), RawEthTransactionDto.class);
+            /***
+             * 初始化 Nonce
+             */
+            transactionLocalService.inflateNoce(rawDto);
+            requestJson =  JSON.toJSONString(rawDto);
+        }else {
+            requestJson = request.getRequsetJson();
+        }
+
+        TransactionResponseData rpcData = nodeService.buildTransafctionReq(request.getChainId(),requestJson);
         TransactionResponseData build = TransactionResponseData.newBuilder().setData(rpcData.getData()).setReqId(rpcData.getReqId()).build();
         /** 返回结果 */
         responseObserver.onNext(ResponseBuilder.sucApiResponse(build));

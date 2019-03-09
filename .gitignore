@@ -55,3 +55,5 @@ gradle.properties
 /.h2/
 /.gradle/
 /dal/common/src/jooq/
+/dal/common/build/
+/dal/common/out/
