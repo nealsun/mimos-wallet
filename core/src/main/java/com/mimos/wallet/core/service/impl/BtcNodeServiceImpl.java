@@ -32,4 +32,9 @@ public class BtcNodeServiceImpl extends NodeServiceAdapter implements BtcNodeSer
     public TransactionResponseData buildTransafctionReq(int chainId, String reqJson) {
         return super.buildRequest(chainId, reqJson);
     }
+
+    @Override
+    public int sendSignedRaw(int chainId, long reqeustId, String txHash, String data) {
+        return 0;
+    }
 }

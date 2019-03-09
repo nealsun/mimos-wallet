@@ -1,6 +1,8 @@
 package com.mimos.wallet.grpc.api;
 
+import com.alibaba.fastjson.JSON;
 import com.mimos.grpc.api.*;
+import com.mimos.wallet.core.dto.RawEthTransactionDto;
 import com.mimos.wallet.core.service.NodeService;
 import com.mimos.wallet.dal.common.generated.tables.daos.ChainAddressDao;
 import com.mimos.wallet.dal.common.generated.tables.pojos.ChainAddress;
@@ -9,6 +11,7 @@ import com.mimos.wallet.dal.common.generated.tables.pojos.ChainWalletPath;
 import com.mimos.wallet.dal.common.generated.tables.pojos.ChainWalletRoot;
 import com.mimos.wallet.dal.common.generated.tables.records.ChainBalcanceRecord;
 import com.mimos.wallet.service.*;
+import com.mimos.wallet.service.impl.TransactionLocalServiceImpl;
 import com.mimos.wallet.util.PojoConverter;
 import com.mimos.wallet.util.ResponseBuilder;
 import io.grpc.stub.StreamObserver;
@@ -49,6 +52,9 @@ public class ApiRpcServiceImpl extends ApiServiceGrpc.ApiServiceImplBase {
 
     @Resource
     NodeService nodeService;
+
+    @Resource
+    TransactionLocalServiceImpl transactionLocalService;
 
 
     @Override
@@ -93,7 +99,7 @@ public class ApiRpcServiceImpl extends ApiServiceGrpc.ApiServiceImplBase {
     }
 
     /**
-     * 为 address 设置 Path ID
+     * 为 address 设置 Path IDe
      * @param chainAddress
      * @param pathId
      * @return
@@ -202,14 +208,24 @@ public class ApiRpcServiceImpl extends ApiServiceGrpc.ApiServiceImplBase {
     @Override
     public void getTransactionReqData(TransactionReqData request, StreamObserver<CommonResponse> responseObserver) {
 
+        RawEthTransactionDto rawDto = JSON.parseObject(request.getRequsetJson(), RawEthTransactionDto.class);
+        /***
+         * 初始化 Nonce
+         */
+        transactionLocalService.inflateNoce(rawDto);
 
-        TransactionResponseData rpcData = nodeService.buildTransafctionReq(request.getChainId(), request.getRequsetJson());
-
+        TransactionResponseData rpcData = nodeService.buildTransafctionReq(request.getChainId(), JSON.toJSONString(rawDto));
         TransactionResponseData build = TransactionResponseData.newBuilder().setData(rpcData.getData()).setReqId(rpcData.getReqId()).build();
         /** 返回结果 */
         responseObserver.onNext(ResponseBuilder.sucApiResponse(build));
         responseObserver.onCompleted();
     }
 
+    @Override
+    public void sendSignedraw(SignedRawRequest request, StreamObserver<CommonResponse> responseObserver) {
+        int i = nodeService.sendSignedRaw(request.getChainId(), request.getReqeusetId(), request.getTxHash(), request.getRawData());
 
+        responseObserver.onNext(CommonResponse.newBuilder().setCode(i).build());
+        responseObserver.onCompleted();
+    }
 }

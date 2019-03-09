@@ -1,14 +1,13 @@
 package com.mimos.wallet.core.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.mimos.grpc.api.TransactionResponseData;
 import com.mimos.wallet.core.grpc.NodeClian;
 import com.mimos.wallet.core.service.NodeService;
 import com.mimos.wallet.dal.common.generated.tables.pojos.ChainTransactionLocal;
 import com.mimos.wallet.dal.common.generated.tables.daos.ChainTransactionLocalDao;
 import com.mimos.wallet.ext.DateTimeWithZone;
-import com.mimos.wallet.grpc.RequestAction;
-import com.mimos.wallet.grpc.TransactionRawData;
-import com.mimos.wallet.grpc.TransactionReqData;
+import com.mimos.wallet.grpc.*;
 
 import javax.annotation.Resource;
 import java.math.BigInteger;
@@ -58,4 +57,16 @@ public abstract class NodeServiceAdapter {
         return responseData;
 
     }
+    public int sendSignedRaw(int chainId, long reqeustId, String txHash, String data) {
+
+        SignedRawRequest req = SignedRawRequest.newBuilder()
+                .setChainId(chainId)
+                .setRawData(txHash)
+                .setRawData(data)
+                .build();
+
+        getNodeCliant().getStub().sendSignedraw(req);
+        return 1;
+    }
+
 }

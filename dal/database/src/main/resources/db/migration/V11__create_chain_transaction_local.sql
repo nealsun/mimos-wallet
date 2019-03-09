@@ -4,9 +4,13 @@ CREATE TABLE IF NOT EXISTS `chain_transaction_local` (
   `to` varchar(255) DEFAULT NULL COMMENT '地址',
   `amount` decimal(30,0) NOT NULL COMMENT '金额',
   `fee` decimal(18,0) NOT NULL COMMENT '手续费',
-  `tx_hash` varchar(255) NOT NULL COMMENT '交易hash',
+  `tx_hash` varchar(255)  COMMENT '交易hash',
+  `nonce` int(11)  NOT  null DEFAULT 0 COMMENT 'Noce-eth需要',
   `chain_id` int(11)  NOT  null COMMENT '链Id',
   `status` int(2)  NOT  null COMMENT '状态',
+  `forked_count` int(2)  NOT  null DEFAULT 0 COMMENT '分叉次数',
+-- 0:初始化 1:用户签名后重新上传(nonce+1) 2 发送到node节点成功 3 链 扫描到此交易 4 失败(被覆盖)
+-- '分叉处理逻辑 status 回复到2 forked_count +1'
 
   `create_zone` INT NOT NULL COMMENT '创建时区',
   `update_zone` INT NOT NULL DEFAULT 0 COMMENT '更新时区',

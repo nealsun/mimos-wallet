@@ -9,6 +9,8 @@ service TransactionGreeter {
 
   rpc buildTransactionRaw (TransactionReqData) returns (TransactionRawData) {}
 
+  rpc sendSignedraw(SignedRawRequest) returns (SignedRawResponse) {}
+
 }
 
 message TransactionReqData {
@@ -23,6 +25,19 @@ message TransactionRawData {
     RequestAction requsetAction = 4;
 
 }
+
+message SignedRawRequest {
+    int32 chainId = 1;
+    int64 reqeusetId = 2;
+    string txHash = 3;
+    string rawData = 4;
+}
+
+message SignedRawResponse {
+    int32 chainId = 1;
+    string txHash = 2;
+}
+
 message RequestAction { // 记录
     int32 chainId = 1;
     string fromAddrss = 2;

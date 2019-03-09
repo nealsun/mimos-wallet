@@ -38,4 +38,21 @@ public class NodeServiceImpl implements NodeService {
         }
         return null;
     }
+
+    @Override
+    public int sendSignedRaw(int chainId, long reqeustId, String txHash, String data) {
+        ChainSybmol chainSybmol = ChainSybmol.getByValue(chainId);
+
+        switch (chainSybmol) {
+            case BTC:
+                return btcNodeService.sendSignedRaw(chainId,reqeustId,txHash,data);
+            case ETH:
+                return ethNodeService.sendSignedRaw(chainId,reqeustId,txHash,data);
+            case EOS:
+                break;
+        }
+        return 1;
+    }
+
+
 }

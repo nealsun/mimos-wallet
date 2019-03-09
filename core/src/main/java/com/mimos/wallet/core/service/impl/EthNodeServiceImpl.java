@@ -28,6 +28,17 @@ public class EthNodeServiceImpl extends NodeServiceAdapter implements EthNodeSer
 
     @Override
     public TransactionResponseData buildTransafctionReq(int chainId, String reqJson) {
+
+        /**
+         * todo if no noce
+         * todo query Noce from db
+         * todo set Noce++
+         */
         return super.buildRequest(chainId, reqJson);
+    }
+
+    @Override
+    public int sendSignedRaw(int chainId, long reqeustId, String txHash, String data) {
+        return super.sendSignedRaw(chainId,reqeustId,txHash,data);
     }
 }

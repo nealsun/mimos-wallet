@@ -10,4 +10,6 @@ import com.mimos.grpc.api.TransactionResponseData;
 public interface NodeService {
 
     TransactionResponseData buildTransafctionReq(int chainId, String reqJson);
+
+    int sendSignedRaw(int chainId,long reqeustId,String txHash, String data);
 }
