@@ -1,1 +1,1 @@
-## wallet
+## mimos wallet
