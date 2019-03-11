@@ -1,0 +1,212 @@
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+
+option java_package = "com.mimos.grpc.api";
+
+option java_multiple_files = true;
+
+option java_outer_classname = "WalletApiProto";
+
+
+message CommonResponse {
+    int32 code = 1;
+    string message = 2;
+    google.protobuf.Any result = 3;
+    //分页需要
+    int32 page_index = 4;
+    int32 page_size = 5;
+}
+
+message WalletRoot {
+    int64 id = 1;
+    string root_pub_key = 2; //根公钥，加密上传
+    Protocol protocol = 3;
+}
+
+enum Protocol {
+    BIP44 = 0;
+    //TODO ...
+}
+
+message Path {
+    int64 id = 1;
+    int64 root_id = 2;
+    string public_key = 3;
+    string path = 4;
+    string symbol = 5;
+    repeated Address addresses = 6;
+}
+
+message Address {
+    string address = 1;
+    string symbol = 2;
+    bool is_token = 3;
+    string contract_id = 4;
+}
+
+message Balance {
+    Address address = 1;
+    string balance = 2;
+    string block_hash = 3;
+    int64 height = 4;
+    string txid = 5;
+}
+
+enum Direction {
+    IN = 0;
+    OUT =1;
+}
+
+message Transaction {
+    int64 id = 1;
+    string txid = 2;
+    string block_hash = 3;
+    uint64 height = 4;
+    //    string address = 5;
+    //    Direction direction = 6;
+    string amount = 7;
+    string fee = 8;
+    string symbol = 9;
+    int64 time = 10;
+    bool is_income = 11;
+}
+
+
+message UTXO {
+    string txid = 1;
+    string vout = 2;
+    Address address = 3;
+    string amount = 4;
+    double time = 5;
+}
+
+//message CryptoRequest {
+//
+//}
+//
+//message CryptoResponse {
+//    string key = 1;
+//}
+
+message CreateWalletRequest {
+    string root_pub_key = 1; //根公钥，加密上传
+    Protocol protocol = 2;
+}
+
+//message CreateWalletResponse {
+//    int64 root_id = 1;
+//}
+
+message SavePathRequest {
+    Path path = 1;
+}
+
+//message SavePathResponse {
+//    int64 path_id = 1;
+//}
+
+message QueryWalletRequest {
+    string root_public_key = 1;
+}
+
+//message QueryTreeResponse {
+//    repeated Path pathes = 1;
+//}
+
+message WalletTree {
+    repeated Path pathes = 1;
+}
+
+message AddressHistoryRequest {
+    repeated Address addresses = 1;
+    int32 page_index = 2;
+    int32 page_size = 3;
+}
+
+message TransactionList {
+    repeated Transaction transactions = 1;
+}
+
+message BalanceRequest {
+    repeated Address addresses = 1;
+}
+
+message BalanceList {
+    repeated Balance balances = 1;
+}
+
+message FeeRateRequest {
+    string symbol = 1;
+}
+
+//message FeeRateResponse {
+//    string fee_rate = 1;
+//}
+
+message Chain {
+    string symbol = 1;
+    uint64 height = 2;
+    string fee_rate = 3;
+}
+
+message ChainSummaryRequest {
+    string symbol = 1;
+}
+
+//message NodeResponse {
+//    Node node = 1;
+//}
+
+message UtxoRequest {
+    Address address = 1;
+    string amount = 2; //如果没有amount， 返回账号全部utxo
+}
+
+message TransactionReqData {
+    int32 chainId = 1;
+    string requsetJson = 2;
+}
+
+message SignedRawRequest {
+    int32 chainId = 1;
+    int64 reqeusetId = 2;
+    string txHash = 3;
+    string rawData = 4;
+}
+
+//未签名的数据
+message TransactionResponseData {
+    int32 chainId = 1;
+    int64 reqId = 2;//数据库 requestId
+    string data = 3; // 未签名数据
+}
+
+//message UtxoResponse {
+//    repeated UTXO utxos = 1;
+//}
+
+service ApiService {
+    //    rpc getCrypto( CryptoRequest ) returns ( CryptoResponse ) {}
+
+    rpc createWallet(CreateWalletRequest) returns (CommonResponse) {}
+
+    rpc savePath(SavePathRequest) returns (CommonResponse) {}
+
+    rpc queryWallet(QueryWalletRequest) returns (CommonResponse) {}
+
+    rpc queryHistory(AddressHistoryRequest) returns (CommonResponse) {}
+
+    rpc queryBalance(BalanceRequest) returns (CommonResponse) {}
+
+    rpc queryFeeRate(FeeRateRequest) returns (CommonResponse) {}
+
+    rpc queryChainSummary(ChainSummaryRequest) returns (CommonResponse) {}
+
+    rpc queryUtxo(UtxoRequest) returns (CommonResponse) {}
+
+    rpc getTransactionReqData(TransactionReqData) returns (CommonResponse) {}
+
+    rpc sendSignedraw(SignedRawRequest) returns (CommonResponse) {}
+}
+

@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.mimos.wallet.base.rpc.transaction_raw";
+option java_outer_classname = "TransactionRawWrapper";
+
+package MimosWallet;
+
+
+message NodeConnnectResp {
+
+    int64 id = 1;
+    string tokenId = 2;
+    bool isSuc = 3;
+    bool isInit = 4; //首次连接
+
+}
+
+message TransactionRawSend {
+    int64 id = 1;
+    string tokenId = 2;
+    string raw = 3;
+}
+
+service TransactionRawGreeter{
+    rpc sendTransactionRaw(stream NodeConnnectResp) returns (stream TransactionRawSend) {}
+}

@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.mimos.wallet.base.rpc.wallet_root";
+option java_outer_classname = "WalletRootWrapper";
+
+package MimosWallet;
+
+import "grpc_response.proto";
+
+message WalletRootReq {
+
+    int64 id = 1;
+
+    string root_pub_key = 2;
+
+    int32 protocol = 3;
+
+    int64 create_time = 4;
+
+}
+
+service WalletRootGreeter{
+    rpc report (WalletRootReq) returns (BaseGrpcResponse) {}
+}

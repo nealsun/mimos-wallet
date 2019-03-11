@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.mimos.wallet.base.rpc.token";
+option java_outer_classname = "TokenWrapper";
+
+package MimosWallet;
+
+import "grpc_response.proto";
+
+message TokenReq {
+
+    int64 id = 1;
+
+    int64 txActionId = 2;
+
+    int64 tokenId = 3;
+
+    string address = 4;
+
+    string height = 5;
+
+    string block_hash = 6;
+
+    string balance_befor = 7;
+
+    string balance_after = 8;
+
+    bool obsoleted = 9;
+
+    int64 create_time = 10;
+
+}
+
+message TokenListReq {
+    repeated TokenReq items = 1;
+}
+
+service TokenGreeter{
+    rpc report (TokenReq) returns (BaseGrpcResponse) {}
+    rpc reportList (TokenListReq) returns (BaseGrpcResponse) {}
+}

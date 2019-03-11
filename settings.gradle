@@ -1,6 +1,8 @@
 rootProject.name = 'wallet'
 include 'api'
 include 'api:grpc'
+include 'api:grpc-api'
+include 'api:grpc-chain'
 include 'api:rest'
 include 'biz'
 include 'core'

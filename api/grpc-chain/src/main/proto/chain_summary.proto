@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.mimos.wallet.base.rpc.chain_summary";
+option java_outer_classname = "ChainSummaryWrapper";
+
+package MimosWallet;
+
+import "grpc_response.proto";
+
+message ChainSummaryReq {
+
+    int64 id = 1;
+
+    int32 symbol = 2;
+
+    string symbol_name = 3;
+
+    int64 height = 4;
+
+    double fee_rate = 5;
+
+    int64 create_time = 6;
+
+}
+
+message ChainSummaryListReq {
+    repeated ChainSummaryReq items = 1;
+}
+
+
+message SummaryIdReq{
+    int64 summary_id = 1;
+}
+
+service ChainSummaryGreeter{
+
+    rpc getSummary(SummaryIdReq) returns (ChainSummaryReq){}
+    rpc report (ChainSummaryReq) returns (BaseGrpcResponse) {}
+    rpc reportList (ChainSummaryListReq) returns (BaseGrpcResponse) {}
+}

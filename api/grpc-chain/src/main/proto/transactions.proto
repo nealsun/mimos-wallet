@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.mimos.wallet.base.rpc.transactions";
+option java_outer_classname = "TransactionsWrapper";
+
+package MimosWallet;
+
+import "grpc_response.proto";
+import "transaction_action.proto";
+
+message TransactionsReq {
+
+    int64 id = 1;
+
+    int64 token_id = 2;
+
+    string txHash = 3;
+
+    int32 txIndex = 4;
+
+    int64 height = 5;
+
+    string block_hash = 6;
+
+    bool obsoleted = 7;
+
+    int64 create_time = 8;
+
+    int64 tx_time = 9;
+
+    string fee = 10;
+
+}
+
+message TransactionsListReq {
+    repeated TransactionsReq items = 1 ;
+}
+
+message TransactionAndActionsReq {
+    TransactionsReq transaction = 1;
+    repeated TransactionActionReq actions = 2 ;
+}
+
+
+message BlockHasReq {
+    string block_hash = 1;
+    int64  block_number = 2;
+    int64  tokenId = 3;
+
+}
+
+service TransctionsGreeter{
+    rpc reportBlockObsoleted (BlockHasReq) returns (BaseGrpcResponse) {}
+    rpc report (TransactionsReq) returns (BaseGrpcResponse) {}
+    rpc reportList (TransactionsListReq) returns (BaseGrpcResponse) {}
+    rpc reportWithActionList (TransactionAndActionsReq) returns (BaseGrpcResponse) {}
+}
