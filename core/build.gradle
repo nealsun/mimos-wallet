@@ -6,7 +6,7 @@ bootJar.setEnabled(false)
 dependencies {
     compile project(":dal")
     compile project(":ext")
-    compile project(":api:grpc")
+    compile project(":api:grpc-node")
 
     compile('com.squareup.retrofit2:retrofit:2.5.0')
     compile('com.squareup.retrofit2:converter-jackson:2.5.0')

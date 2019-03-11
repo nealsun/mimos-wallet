@@ -1,0 +1,62 @@
+
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+
+option java_multiple_files = true;
+
+option java_package = "com.mimos.wallet.grpc";
+
+service TransactionGreeter {
+
+  rpc buildTransactionRaw (TransactionRawReuest) returns (CommonNodeResponse) {}//TransactionRawDto
+
+  rpc sendSignedraw(SendRawRequest) returns (CommonNodeResponse) {}//SignedRawDto
+
+}
+
+message CommonNodeResponse {
+    int32 code = 1;
+    string message = 2;
+    google.protobuf.Any result = 3;
+    //分页需要
+    int32 page_index = 4;
+    int32 page_size = 5;
+}
+//构建 Raw
+message TransactionRawReuest {
+    int32 chainId = 1;
+    string requsetJson = 2;
+}
+message TransactionRawDto {
+    int32 chainId = 1;
+    bool isSuc = 2;
+    string data = 3; // 等签名数据
+    RawDetail rawDetail = 4;
+}
+
+message RawDetail { // 记录
+                        int32 chainId = 1;
+                        string fromAddrss = 2;
+                        string toAddress = 3;
+                        string amount = 4;// bitInteger
+                        string fee = 5;//bigDesimail
+                        int64 timestimole = 6;
+                        string txHash = 7;//check null before used
+                        int32 nonce = 8;//eth
+}
+
+//签名后 raw 上传
+message SendRawRequest {
+    int32 chainId = 1;
+    int64 reqeusetId = 2;
+    string txHash = 3;
+    string rawData = 4;
+}
+
+message SignedRawDTO {
+    int32 chainId = 1;
+    string txHash = 2;
+}
+
+

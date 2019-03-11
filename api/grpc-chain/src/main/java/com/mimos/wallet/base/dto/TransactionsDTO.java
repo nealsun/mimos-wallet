@@ -1,4 +1,4 @@
-package base.dto;
+package com.mimos.wallet.base.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import java.sql.Timestamp;
  */
 @Setter
 @Getter
-public class TransactionsDTO extends BaseDTO{
+public class TransactionsDTO extends BaseDTO {
 
     //主键id
     private Long id;

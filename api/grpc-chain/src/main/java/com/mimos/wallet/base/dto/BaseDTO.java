@@ -1,4 +1,4 @@
-package base.dto;
+package com.mimos.wallet.base.dto;
 
 /**
  * @description:

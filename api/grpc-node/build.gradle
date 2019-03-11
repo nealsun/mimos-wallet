@@ -1,0 +1,27 @@
+plugins {
+    id "com.google.protobuf" version "0.8.5"
+}
+
+archivesBaseName = 'grpc-node'
+apply from: "${rootDir}/api/grpc/grpc.gradle"
+apply from: "${rootDir}/gradle/upload.gradle"
+
+
+
+group 'com.mimos'
+version '1.0-SNAPSHOT'
+
+dependencies {
+    compileOnly("net.devh:grpc-server-spring-boot-starter:${grpcStarterVersion}")
+    compileOnly("io.netty:netty-tcnative-boringssl-static:${grpcTcnativeVersion}")
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

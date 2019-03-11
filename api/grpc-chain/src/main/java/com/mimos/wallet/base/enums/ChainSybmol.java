@@ -1,4 +1,4 @@
-package base.enums;
+package com.mimos.wallet.base.enums;
 
 import lombok.Getter;
 
