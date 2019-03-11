@@ -1,9 +1,8 @@
 package com.mimos.wallet.core.service.impl;
 
-import com.alibaba.fastjson.JSON;
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.mimos.grpc.api.TransactionResponseData;
 import com.mimos.wallet.core.grpc.NodeClian;
-import com.mimos.wallet.core.service.NodeService;
 import com.mimos.wallet.dal.common.generated.tables.pojos.ChainTransactionLocal;
 import com.mimos.wallet.dal.common.generated.tables.daos.ChainTransactionLocalDao;
 import com.mimos.wallet.ext.DateTimeWithZone;
@@ -26,9 +25,16 @@ public abstract class NodeServiceAdapter {
 
     public TransactionResponseData buildRequest(int chainId, String reqJson) {
 
-        TransactionRawData rawData = getNodeCliant().getStub().buildTransactionRaw(TransactionReqData.newBuilder().setChainId(chainId).setRequsetJson(reqJson).build());
+        CommonNodeResponse rqwResponse = getNodeCliant().getStub().buildTransactionRaw(TransactionRawReuest.newBuilder().setChainId(chainId).setRequsetJson(reqJson).build());
 
-        RequestAction requsetAction = rawData.getRequsetAction();
+        TransactionRawDto rawData = null;
+        try {
+            rawData = rqwResponse.getResult().unpack(TransactionRawDto.class);
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
+
+        RawDetail requsetAction = rawData.getRawDetail ();
 
         ChainTransactionLocal transactionLocal = new ChainTransactionLocal();
         transactionLocal.setFrom(requsetAction.getFromAddrss());
@@ -73,7 +79,7 @@ public abstract class NodeServiceAdapter {
             chainTransactionLocalDao.update(transactionLocal);
         }
 
-        SignedRawRequest req = SignedRawRequest.newBuilder()
+        SendRawRequest req = SendRawRequest.newBuilder()
                 .setChainId(chainId)
                 .setRawData(txHash)
                 .setRawData(data)
@@ -82,5 +88,6 @@ public abstract class NodeServiceAdapter {
         getNodeCliant().getStub().sendSignedraw(req);
         return 1;
     }
+
 
 }
